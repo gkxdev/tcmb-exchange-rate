@@ -5,16 +5,14 @@
  */
 
 class TCMB_Exchange_Rate {
-    private array $currencies;
-    private DateTime $date;
+    private $date;
+    private $currencies;
 
-    public function __construct(string $date = 'now') {
+    public function __construct($date = 'now') {
         $this->initExchangeRates($date);
-
-        return $this;
     }
 
-    public function getCurrency(string $currency): object {
+    public function getCurrency($currency) {
         if (!isset($this->currencies[$currency])) {
             throw new Exception('Currency code not found! ' . $currency);
         }
@@ -22,15 +20,15 @@ class TCMB_Exchange_Rate {
         return $this->currencies[$currency];
     }
 
-    public function getAllCurrencies(): array {
+    public function getAllCurrencies() {
         return $this->currencies;
     }
 
-    public function getDate(): DateTime {
+    public function getDate() {
         return $this->date;
     }
 
-    private function initExchangeRates(string $date): void {
+    private function initExchangeRates($date) {
         $this->date = date_create($date);
 
         if ($this->getDate()->getTimestamp() > time()) {
@@ -46,7 +44,7 @@ class TCMB_Exchange_Rate {
         );
     }
 
-    private function tcmbHttpRequest(): string {
+    private function tcmbHttpRequest() {
         while (true) {
             $url = sprintf('https://www.tcmb.gov.tr/kurlar/%s/%s.xml',
                 $this->getDate()->format('Ym'),
@@ -67,12 +65,12 @@ class TCMB_Exchange_Rate {
         return $response;
     }
 
-    private function tcmbParseXml(string $xml): array {
-        $tcmbData = simplexml_load_string($xml);
+    private function tcmbParseXml($xml) {
+        $xml = simplexml_load_string($xml);
 
         $data = array();
 
-        foreach ($tcmbData->Currency as $currency) {
+        foreach ($xml->Currency as $currency) {
             $currencyCode = (string) $currency['CurrencyCode'];
 
             $buying  = $currency->BanknoteBuying  ?: $currency->ForexBuying;
