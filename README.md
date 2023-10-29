@@ -44,7 +44,7 @@ printf('%s tarihli %s alış kuru %.4f - satış kuru %.4f',
 );
 ```
 
-### getCurrency(string $currency)
+### getCurrency($currency)
 
 Parametre olarak verilen para biriminin döviz kuru objesini getirir.
 
