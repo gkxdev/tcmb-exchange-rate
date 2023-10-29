@@ -19,7 +19,7 @@ echo $tcmb->getCurrency('USD')->buying;
 // USD Satış
 echo $tcmb->getCurrency('USD')->selling;
 
-// Tüm Döviz Kurları
+// Tümü
 print_r($tcmb->getAllCurrencies());
 ```
 
